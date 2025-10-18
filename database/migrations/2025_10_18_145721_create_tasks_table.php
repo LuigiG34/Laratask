@@ -18,7 +18,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->string('status')->default('todo'); // todo, in_progress, done
             $table->date('due_date')->nullable();
-            $table->foreignId('assigned_to')->nullable()->constrained('users')->onDelete('setNull');
+            $table->foreignId('assigned_to')->nullable()->constrained('users')->onDelete('cascade');
             $table->integer('position')->default(0); // For ordering/Kanban
             $table->timestamps();
         });

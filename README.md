@@ -29,6 +29,11 @@ php artisan make:migration name_of_migration
 php artisan migrate
 ```
 
+Roll back all migrations and run them again from scratch
+```bash
+php artisan migrate:refresh
+```
+
 Make a Factory for a Model
 ```bash
 php artisan make:factory LoremFactory

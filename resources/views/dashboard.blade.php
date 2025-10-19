@@ -1,17 +1,24 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
-    </x-slot>
-
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    {{ __("You're logged in!") }}
-                </div>
+    <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+        @if ($workspace)
+            <div class="mb-6">
+                <h2 class="text-3xl font-bold text-gray-900">{{ $workspace->name }}</h2>
+                <p class="text-gray-600 mt-1">{{ $workspace->projects()->count() }} projects</p>
             </div>
-        </div>
+
+            <div class="bg-white rounded-lg shadow p-6">
+                <p class="text-gray-600">Welcome to your workspace! Start by creating a project.</p>
+                <a href="#" class="mt-4 inline-block px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                    Create Project
+                </a>
+            </div>
+        @else
+            <div class="text-center py-12">
+                <p class="text-gray-600 mb-4">No workspace selected</p>
+                <a href="{{ route('workspaces.index') }}" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                    Choose Workspace
+                </a>
+            </div>
+        @endif
     </div>
 </x-app-layout>

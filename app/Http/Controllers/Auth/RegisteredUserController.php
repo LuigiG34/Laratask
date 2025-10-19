@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
+use App\Models\Workspace;
+use Illuminate\Support\Str;
 
 class RegisteredUserController extends Controller
 {
@@ -31,7 +33,7 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
@@ -41,7 +43,15 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        event(new Registered($user));
+        // Create default workspace for new user
+        $workspace = Workspace::create([
+            'name' => $request->name . "'s Workspace",
+            'slug' => Str::slug($request->name . '-' . uniqid()),
+            'owner_id' => $user->id,
+        ]);
+
+        // Add user to workspace
+        $workspace->users()->attach($user->id, ['role' => 'owner']);
 
         Auth::login($user);
 

@@ -59,3 +59,7 @@ Start server
 php artisan serve
 ```
 
+Open a PHP REPL (interactive PHP shell)
+```bash
+php artisan tinker
+```

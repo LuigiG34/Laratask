@@ -28,6 +28,7 @@
             @endisset
 
             <!-- Page Content -->
+            <x-navbar />
             <main>
                 {{ $slot }}
             </main>

@@ -18,8 +18,34 @@
                 </div>
             </div>
 
-            <!-- Settings Dropdown -->
-            <div class="hidden sm:flex sm:items-center sm:ms-6">
+            <!-- Workspace Switcher + Settings Dropdown -->
+            <div class="hidden sm:flex sm:items-center sm:ms-6 gap-4">
+                <!-- Workspace Switcher -->
+                <div x-data="{ wsOpen: false }" class="relative">
+                    <button @click="wsOpen = !wsOpen" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
+                        {{ session('workspace_id') && auth()->user()->workspaces()->find(session('workspace_id')) 
+                            ? auth()->user()->workspaces()->find(session('workspace_id'))->name 
+                            : 'Select Workspace' }}
+                        <span class="ml-1">▼</span>
+                    </button>
+
+                    <div x-show="wsOpen" @click.outside="wsOpen = false" class="absolute left-0 mt-2 w-48 bg-white border border-gray-200 rounded shadow-lg z-50">
+                        @foreach (auth()->user()->workspaces as $ws)
+                            <form method="POST" action="{{ route('workspaces.switch', $ws) }}" class="block w-full text-left">
+                                @csrf
+                                <button type="submit" class="w-full text-left px-4 py-2 hover:bg-gray-100 text-gray-900 text-sm border-b border-gray-100">
+                                    {{ $ws->name }}
+                                </button>
+                            </form>
+                        @endforeach
+
+                        <a href="{{ route('workspaces.create') }}" class="block px-4 py-2 text-blue-600 hover:bg-gray-100 text-sm">
+                            + New Workspace
+                        </a>
+                    </div>
+                </div>
+
+                <!-- User Dropdown -->
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
@@ -34,6 +60,12 @@
                     </x-slot>
 
                     <x-slot name="content">
+                        @if (session('workspace_id'))
+                            <x-dropdown-link :href="route('workspaces.edit', session('workspace_id'))">
+                                {{ __('Workspace Settings') }}
+                            </x-dropdown-link>
+                        @endif
+
                         <x-dropdown-link :href="route('profile.edit')">
                             {{ __('Profile') }}
                         </x-dropdown-link>
@@ -72,6 +104,25 @@
             </x-responsive-nav-link>
         </div>
 
+        <!-- Responsive Workspace Switcher -->
+        <div class="px-4 py-2 border-t border-gray-200">
+            <div class="font-medium text-sm text-gray-500 mb-2">Workspace</div>
+            <div class="space-y-1">
+                @foreach (auth()->user()->workspaces as $ws)
+                    <form method="POST" action="{{ route('workspaces.switch', $ws) }}" class="block w-full text-left">
+                        @csrf
+                        <button type="submit" class="w-full text-left px-4 py-2 hover:bg-gray-100 text-gray-900 text-sm">
+                            {{ $ws->name }}
+                        </button>
+                    </form>
+                @endforeach
+
+                <a href="{{ route('workspaces.create') }}" class="block px-4 py-2 text-blue-600 hover:bg-gray-100 text-sm">
+                    + New Workspace
+                </a>
+            </div>
+        </div>
+
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200">
             <div class="px-4">
@@ -80,6 +131,12 @@
             </div>
 
             <div class="mt-3 space-y-1">
+                @if (session('workspace_id'))
+                    <x-responsive-nav-link :href="route('workspaces.edit', session('workspace_id'))">
+                        {{ __('Workspace Settings') }}
+                    </x-responsive-nav-link>
+                @endif
+
                 <x-responsive-nav-link :href="route('profile.edit')">
                     {{ __('Profile') }}
                 </x-responsive-nav-link>

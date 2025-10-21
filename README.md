@@ -1,7 +1,7 @@
 # Laratask
+Laravel based project inspired by Asana built to demonstrate the understanding of modern Laravel patterns including Eloquent, Livewire, policies, and real-time features.
 
 ## Reminders
-
 Init a Laravel project
 ```bash
 composer create-project laravel/laravel myapp

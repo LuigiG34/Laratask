@@ -169,8 +169,6 @@
 
 @script
 <script>
-    import Sortable from 'sortablejs';
-
     document.addEventListener('livewire:navigated', function() {
         initKanban();
     });

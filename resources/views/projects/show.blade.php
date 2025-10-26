@@ -1,7 +1,16 @@
 <x-app-layout>
     <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         <div class="mb-6">
-            <a href="{{ route('projects.index') }}" class="text-blue-600 hover:text-blue-800">← Back to Projects</a>
+            <div class="flex justify-between items-center">
+                <a href="{{ route('projects.index') }}" class="text-blue-600 hover:text-blue-800">← Back to Projects</a>
+                
+                <a href="{{ route('projects.kanban', $project) }}" class="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"></path>
+                    </svg>
+                    Kanban View
+                </a>
+            </div>
         </div>
 
         <div class="mb-6">

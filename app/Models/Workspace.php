@@ -27,6 +27,11 @@ class Workspace extends Model
     {
         return $this->hasMany(Project::class);
     }
+
+    public function activities()
+    {
+        return $this->hasMany(Activity::class)->latest();
+    }
     // ------------------------------ RELATIONSHIPS ------------------------------
 
 }

@@ -61,12 +61,10 @@
                 </div>
             </div>
 
-            <!-- Comments Section (placeholder) -->
+            <!-- Comments Section -->
             <div class="border-t border-gray-200 pt-6">
                 <h3 class="text-lg font-semibold text-gray-900 mb-4">Comments</h3>
-                <div class="text-gray-500 text-sm">
-                    Comments coming soon...
-                </div>
+                @livewire('task-comments', ['taskId' => $task->id])
             </div>
         </div>
     </div>

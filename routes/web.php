@@ -16,10 +16,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', function () {
         $workspace = null;
         if (session('workspace_id')) {
-            $workspace = auth()->user()->workspaces()->find(session('workspace_id'));
+            $workspace = auth()->user()->workspaces()->with('activities')->find(session('workspace_id'));
         }
         if (!$workspace) {
-            $workspace = auth()->user()->workspaces()->first();
+            $workspace = auth()->user()->workspaces()->with('activities')->first();
             if ($workspace) {
                 session(['workspace_id' => $workspace->id]);
             }

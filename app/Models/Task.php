@@ -60,8 +60,8 @@ class Task extends Model
                     'user_id' => auth()->id(),
                     'type' => 'task_status_changed',
                     'description' => auth()->user()->name . ' moved task "' . $task->title . '" from ' . ucfirst($oldStatus) . ' to ' . ucfirst($newStatus),
-                    'subject_id' => $task->id,
-                    'subject_type' => Task::class,
+                    'subject_id' => $task->id,        // ADD THIS
+                    'subject_type' => Task::class,     // ADD THIS
                 ]);
             }
         });

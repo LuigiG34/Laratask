@@ -9,7 +9,7 @@ class Activity extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['workspace_id', 'user_id', 'type', 'description'];
+    protected $fillable = ['workspace_id', 'user_id', 'type', 'description', 'subject_id', 'subject_type'];
 
     public function user()
     {

@@ -35,5 +35,6 @@
         </div>
 
         @livewireScripts
+        <x-flash-messages />
     </body>
 </html>

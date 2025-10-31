@@ -17,6 +17,7 @@
     },
     "dependencies": {
         "@tailwindcss/line-clamp": "^0.4.4",
-        "sortablejs": "^1.15.6"
+        "sortablejs": "^1.15.6",
+        "toastr": "^2.1.4"
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MyTasksController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\TaskController;
@@ -46,6 +47,9 @@ Route::middleware('auth')->group(function () {
     // Tasks
     Route::resource('tasks', TaskController::class);
     Route::patch('tasks/{task}/status', [TaskController::class, 'updateStatus'])->name('tasks.updateStatus');
+
+    // My tasks
+    Route::get('/my-tasks', [MyTasksController::class, 'index'])->name('my-tasks');
 });
 
 require __DIR__.'/auth.php';

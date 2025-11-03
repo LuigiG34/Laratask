@@ -56,6 +56,28 @@
             </div>
         </div>
 
+        <!-- Search -->
+        <div class="mb-4">
+            <form method="GET" class="flex gap-2">
+                <input type="hidden" name="status" value="{{ request('status') }}">
+                <input 
+                    type="text" 
+                    name="search" 
+                    value="{{ request('search') }}"
+                    placeholder="Search tasks..." 
+                    class="flex-1 px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+                >
+                <button type="submit" class="px-6 py-2 bg-gray-200 text-gray-900 rounded hover:bg-gray-300 font-medium">
+                    Search
+                </button>
+                @if (request('search'))
+                    <a href="{{ route('projects.show', $project) }}" class="px-6 py-2 bg-gray-200 text-gray-900 rounded hover:bg-gray-300 font-medium">
+                        Clear
+                    </a>
+                @endif
+            </form>
+        </div>
+
         <!-- Quick Add Task Form -->
         <div class="mb-6 bg-white rounded-lg shadow p-4">
             <form method="POST" action="{{ route('tasks.store') }}" class="flex gap-3">

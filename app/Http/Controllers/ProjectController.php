@@ -64,12 +64,28 @@ class ProjectController extends Controller
         return redirect()->route('projects.show', $project)->with('success', 'Project created!');
     }
 
-    public function show(Project $project)
+    public function show(Request $request, Project $project)
     {
         $this->authorize('view', $project);
 
-        $project->load(['tasks' => function($query) {
-            $query->with('assignee')->orderBy('position');
+        $query = $project->tasks()->with('assignee');
+
+        // Filter by status
+        if ($request->has('status')) {
+            $query->where('status', $request->status);
+        }
+
+        // Search
+        if ($request->has('search') && $request->search) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('title', 'like', '%' . $search . '%')
+                ->orWhere('description', 'like', '%' . $search . '%');
+            });
+        }
+
+        $project->load(['tasks' => function($q) use ($query) {
+            $q->mergeConstraintsFrom($query)->orderBy('position');
         }]);
 
         return view('projects.show', compact('project'));

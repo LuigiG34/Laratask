@@ -173,13 +173,46 @@
                                     <a href="{{ route('tasks.edit', $task) }}" class="text-blue-600 hover:text-blue-800 text-sm">
                                         Edit
                                     </a>
-                                    <form method="POST" action="{{ route('tasks.destroy', $task) }}" onsubmit="return confirm('Delete this task?')" class="inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="text-red-600 hover:text-red-800 text-sm">
-                                            Delete
-                                        </button>
-                                    </form>
+                                    <button 
+                                        @click="$dispatch('confirm-delete-task-{{ $task->id }}')"
+                                        type="button"
+                                        class="text-red-600 hover:text-red-800 text-sm"
+                                    >
+                                        Delete
+                                    </button>
+
+                                    <div 
+                                        x-data="{ open: false }"
+                                        @confirm-delete-task-{{ $task->id }}.window="open = true"
+                                        x-show="open"
+                                        x-cloak
+                                        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+                                        style="display: none;"
+                                    >
+                                        <div class="bg-white rounded-lg p-6 max-w-md w-full mx-4" @click.away="open = false">
+                                            <h3 class="text-lg font-semibold text-gray-900 mb-2">Delete Task?</h3>
+                                            <p class="text-gray-600 mb-6">Are you sure you want to delete "{{ $task->title }}"? This action cannot be undone.</p>
+                                            
+                                            <div class="flex gap-3">
+                                                <form method="POST" action="{{ route('tasks.destroy', $task) }}" class="flex-1">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button 
+                                                        type="submit"
+                                                        class="w-full px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 font-medium"
+                                                    >
+                                                        Delete
+                                                    </button>
+                                                </form>
+                                                <button 
+                                                    @click="open = false"
+                                                    class="flex-1 px-4 py-2 bg-gray-200 text-gray-900 rounded hover:bg-gray-300 font-medium"
+                                                >
+                                                    Cancel
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

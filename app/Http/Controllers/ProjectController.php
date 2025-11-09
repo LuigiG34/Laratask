@@ -68,25 +68,25 @@ class ProjectController extends Controller
     {
         $this->authorize('view', $project);
 
-        $query = $project->tasks()->with('assignee');
+        // Get the base query
+        $tasksQuery = $project->tasks()->with('assignee')->orderBy('position');
 
         // Filter by status
-        if ($request->has('status')) {
-            $query->where('status', $request->status);
+        if ($request->has('status') && $request->status) {
+            $tasksQuery->where('status', $request->status);
         }
 
         // Search
         if ($request->has('search') && $request->search) {
             $search = $request->search;
-            $query->where(function($q) use ($search) {
+            $tasksQuery->where(function($q) use ($search) {
                 $q->where('title', 'like', '%' . $search . '%')
                 ->orWhere('description', 'like', '%' . $search . '%');
             });
         }
 
-        $project->load(['tasks' => function($q) use ($query) {
-            $q->mergeConstraintsFrom($query)->orderBy('position');
-        }]);
+        // Load tasks with the filters applied
+        $project->setRelation('tasks', $tasksQuery->get());
 
         return view('projects.show', compact('project'));
     }
